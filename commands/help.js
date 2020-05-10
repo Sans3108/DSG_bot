@@ -35,7 +35,7 @@ module.exports = {
 
       //data.push(commands.filter(c => !c.ownerOnly).map(command => '_`' + prefix + command.name + '`_' + ` - ${command.description}`).join('\n'));
 
-      const groups = ["general", "info", "fun"];
+      const groups = ["general", "info", "fun", "music"];
       await groups.forEach(item => {
         let a = commands
           .filter(c => c.group === item)

@@ -1,17 +1,20 @@
 require("dotenv").config();
-console.log('Loading...\n\n');
+console.log("Loading...\n\n");
 
 //A hella ot of variables goddamnit xd
 const Discord = require("discord.js");
 const config = require("./config.json");
 const fs = require("fs");
 const ms = require("ms");
-const YouTubeAPIKey = process.env.YTKEY
-const YouTube = require('simple-youtube-api');
-const ytdl = require('ytdl-core');
+const YouTubeAPIKey = process.env.YTKEY;
+const YouTube = require("simple-youtube-api");
+const ytdl = require("ytdl-core");
 
 const bot = new Discord.Client(); //disable @everyone and @here mentions by adding this as a client option     {disableEveryone: true}
 bot.commands = new Discord.Collection();
+
+bot.youtube = new YouTube(YouTubeAPIKey);
+bot.queue = new Map();
 
 const commandFiles = fs
   .readdirSync("./commands")
@@ -58,7 +61,7 @@ bot.on("message", async message => {
     .slice(config.prefix.length)
     .trim()
     .split(" ");
-  let prefix = config.prefix
+  let prefix = config.prefix;
   const aargs = message.content.slice(prefix.length).split(/ +/);
   const commandName = args.shift().toLowerCase();
 
@@ -136,6 +139,71 @@ bot.on("message", async message => {
 
   timestamps.set(message.author.id, now);
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+  bot.handleVideo = async (video, message, vc, playlist = false) => {
+    let queue = bot.queue.get(message.guild.id);
+    let music = {
+      id: video.id,
+      title: video.title,
+      url: `https://www.youtube.com/watch?v=${video.id}`
+    };
+    if (!queue) {
+      let queueConstruct = {
+        textChannel: message.channel,
+        voiceChannel: vc,
+        connection: null,
+        musics: [],
+        volume: 100,
+        playing: true
+      };
+      bot.queue.set(message.guild.id, queueConstruct);
+      queueConstruct.musics.push(music);
+      try {
+        var connection = await vc.join();
+        queueConstruct.connection = connection;
+        bot.play(message.guild, queueConstruct.musics[0]);
+      } catch (err) {
+        bot.queue.delete(message.guild.id);
+        message.channel.send(`There was an error, please contact staff: ${err}`);
+      }
+    } else {
+      queue.musics.push(music);
+      let emb1 = new Discord.RichEmbed()
+        .setColor(config.color.green)
+        .setDescription(`🎵 **${music.title}** was added to the queue!`);
+      
+      if (playlist) return;
+      else
+        return message.channel.send(emb1);
+    }
+    return;
+  };
+
+  bot.play = (guild, music) => {
+    let queue = bot.queue.get(guild.id);
+    if (!music) {
+      queue.voiceChannel.leave();
+      bot.queue.delete(guild.id);
+      let emb2 = new Discord.RichEmbed()
+        .setColor(config.color.green)
+        .setDescription(`🎵 Music playback ended!`);
+      return queue.textChannel.send(emb2);
+    }
+    let dispatcher = queue.connection
+      .playStream(ytdl(music.url))
+      .on("end", () => {
+        queue.musics.shift();
+        setTimeout(() => {
+          bot.play(guild, queue.musics[0]);
+        }, 250);
+      })
+      .on("error", err => console.error(err));
+    dispatcher.setVolumeLogarithmic(queue.volume / 100);
+    let emb3 = new Discord.RichEmbed()
+        .setColor(config.color.green)
+        .setDescription(`🎵 Now playing: **${music.title}**`);
+    queue.textChannel.send(emb3);
+  };
 
   try {
     command.execute(message, args, bot, config, command);
