@@ -5,7 +5,7 @@ module.exports = {
   name: "fox",
   description: "Get a random fox :3",
   group: 'fun',
-  cooldown: 2,
+  cooldown: 3,
   guildOnly: true,
   execute: async (message, args, bot, config) => {
     let msg = await message.channel.send("Generating a fox...");
@@ -13,6 +13,7 @@ module.exports = {
     get('https://randomfox.ca/floof').then(res => {
         const embed = new Discord.RichEmbed()
         .setColor(config.color.random)
+        .setDescription("No " + `[image](${res.body.image})` +"? Blame Discord...")
         .setImage(res.body.image)
         .setTimestamp()
         .setFooter(`© ${bot.user.username}`, bot.user.avatarURL)
