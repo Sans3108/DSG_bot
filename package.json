@@ -1,0 +1,28 @@
+{
+  "name": "dsgBot",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cpu-stat": "2.0.1",
+    "discord-meme-generator": "^1.0.4",
+    "discord.js": "^11.4.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "got": "^11.1.1",
+    "hastebin-gen": "2.0.5",
+    "https": "^1.0.0",
+    "moment": "2.24.0",
+    "ms": "2.1.2",
+    "os": "0.1.1",
+    "snekfetch": "4.0.4",
+    "superagent": "5.1.0",
+    "weather-js": "^2.0.0",
+    "ytdl": "0.13.1",
+    "simple-youtube-api": "5.2.1",
+    "node-opus": "0.3.3"
+  }
+}
