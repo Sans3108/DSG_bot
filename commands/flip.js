@@ -12,7 +12,7 @@ module.exports = {
   cooldown: 1,
   guildOnly: true,
   args: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     
     let emb1 = new Discord.RichEmbed()
       .setColor(config.color.green)

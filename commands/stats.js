@@ -9,7 +9,7 @@ module.exports = {
   group: "info",
   cooldown: 3,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
 
     cpuStat.usagePercent(function(err, percent, seconds) {
       if (err) {

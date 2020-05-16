@@ -24,6 +24,7 @@
     "weather-js": "^2.0.0",
     "ytdl": "0.13.1",
     "simple-youtube-api": "5.2.1",
-    "node-opus": "0.3.3"
+    "node-opus": "0.3.3",
+    "quick.db": "^7.1.1"
   }
 }

@@ -11,7 +11,7 @@ module.exports = {
   group: 'fun',
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     message.channel.send('Fliping coin...').then((msg)=> {
         setTimeout(function(){
             msg.edit(flipcoin());

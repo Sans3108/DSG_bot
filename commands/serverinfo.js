@@ -14,7 +14,17 @@ module.exports = {
   group: "info",
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
+    await message.guild
+      .fetchMembers()
+      .then(() => console.log("Fetched all members from " + message.guild.name))
+      .catch(e => {
+        console.log(e.stack);
+        message.channel.send(
+          e.message +
+            `\nPlease contact <@${config.ownerID}> or any staff and show them this error.`
+        );
+      });
     let icon = message.guild.iconURL;
     let embed = new Discord.RichEmbed()
       .setTitle("**Server Info**")
@@ -28,7 +38,11 @@ module.exports = {
         "Owner",
         `${message.guild.owner.user.username}#${message.guild.owner.user.discriminator}`
       )
-      .addField("Region", message.guild.region.charAt(0).toUpperCase() + message.guild.region.slice(1))
+      .addField(
+        "Region",
+        message.guild.region.charAt(0).toUpperCase() +
+          message.guild.region.slice(1)
+      )
       .addField(
         "Total | Humans | Bots",
         `${message.guild.members.size} | ${

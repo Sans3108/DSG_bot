@@ -9,6 +9,7 @@ const ms = require("ms");
 const YouTubeAPIKey = process.env.YTKEY;
 const YouTube = require("simple-youtube-api");
 const ytdl = require("ytdl-core");
+const db = require('quick.db');
 
 const bot = new Discord.Client(); //disable @everyone and @here mentions by adding this as a client option     {disableEveryone: true}
 bot.commands = new Discord.Collection();
@@ -206,7 +207,7 @@ bot.on("message", async message => {
   };
 
   try {
-    command.execute(message, args, bot, config, command);
+    command.execute(message, args, bot, config, command, aargs);
   } catch (error) {
     console.error(error);
 

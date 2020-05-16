@@ -6,7 +6,7 @@ module.exports = {
   group: "general",
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let iconembed = new Discord.RichEmbed()
       .setColor("00ff00")
       .setImage(message.guild.iconURL)

@@ -7,6 +7,7 @@ function clean(text) {
 }
 
 const Discord = require("discord.js");
+const db = require('quick.db');
 
 module.exports = {
   name: "eval",
@@ -14,7 +15,7 @@ module.exports = {
   group: "dev",
   cooldown: 0.1,
   ownerOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     try {
       let code = args.join(" ");
       if (code.startsWith("```js") && code.endsWith("```")) {

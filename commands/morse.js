@@ -7,7 +7,7 @@ module.exports = {
   cooldown: 1,
   guildOnly: true,
   args: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let alpha = " ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split(""),
 				morse = "/,.-,-...,-.-.,-..,.,..-.,--.,....,..,.---,-.-,.-..,--,-.,---,.--.,--.-,.-.,...,-,..-,...-,.--,-..-,-.--,--..,.----,..---,...--,....-,.....,-....,--...,---..,----.,-----".split(","),
 				text = args.join(" ").toUpperCase();
@@ -17,14 +17,14 @@ module.exports = {
 			if (text.startsWith(".") || text.startsWith("-")) {
 				text = text.split(" ");
 				let length = text.length;
-				for (i = 0; i < length; i++) {
+				for (let i = 0; i < length; i++) {
 					text[i] = alpha[morse.indexOf(text[i])];
 				}
 				text = text.join("");
 			} else {
 				text = text.split("");
 				let length = text.length;
-				for (i = 0; i < length; i++) {
+				for (let i = 0; i < length; i++) {
 					text [i] = morse[alpha.indexOf(text[i])];
 				}
 				text = text.join(" ");

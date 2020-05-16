@@ -6,7 +6,7 @@ module.exports = {
   group: "music",
   cooldown: 2,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let queue = bot.queue.get(message.guild.id);
 
     if (queue && queue.playing) {

@@ -12,7 +12,7 @@ module.exports = {
   group: "general",
   cooldown: 3,
   guildOnly: true,
-  execute: async (message, args, aargs, bot) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     const data = [];
     const { commands } = message.client;
     const color = {
@@ -31,11 +31,11 @@ module.exports = {
     if (!args.length) {
       const embed5 = new Discord.RichEmbed()
         .setTitle("**Here's a list of all my commands:**")
-        .setThumbnail(message.guild.me.displayAvatarURL);
+        .setThumbnail(bot.user.avatarURL);
 
       //data.push(commands.filter(c => !c.ownerOnly).map(command => '_`' + prefix + command.name + '`_' + ` - ${command.description}`).join('\n'));
 
-      const groups = ["general", "info", "fun", "music"];
+      const groups = ["general", "admin", "info", "fun", "music"];
       await groups.forEach(item => {
         let a = commands
           .filter(c => c.group === item)
@@ -59,23 +59,23 @@ module.exports = {
     }
 
     const name = args.shift().toLowerCase();
-    const command =
+    const acommand =
       commands.get(name) ||
       commands.find(c => c.aliases && c.aliases.includes(name));
     if (!command) {
       return message.reply(embed3);
     }
 
-    data.push(`**Name:** ${command.name}`);
+    data.push(`**Name:** ${acommand.name}`);
 
-    if (command.aliases)
-      data.push(`**Aliases:** ${command.aliases.join(", ")}`);
-    if (command.description)
-      data.push(`**Description:** ${command.description}`);
-    if (command.usage)
-      data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
+    if (acommand.aliases)
+      data.push(`**Aliases:** ${acommand.aliases.join(", ")}`);
+    if (acommand.description)
+      data.push(`**Description:** ${acommand.description}`);
+    if (acommand.usage)
+      data.push(`**Usage:** ${config.prefix}${acommand.name} ${acommand.usage}`);
 
-    const timeLeft = command.cooldown || 3;
+    const timeLeft = acommand.cooldown || 3;
     let hours = Math.floor(timeLeft / 3600);
     let r1 = timeLeft % 3600;
     let minutes = Math.floor(r1 / 60);

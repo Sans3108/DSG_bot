@@ -7,7 +7,7 @@ module.exports = {
   group: 'info',
   cooldown: 2,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let user = message.mentions.users.first() || message.author
     const member = message.guild.member(user);
     let roles = member.roles.map(roles => `<@&${roles.id}>`).slice(1).join(', ') || 'None'

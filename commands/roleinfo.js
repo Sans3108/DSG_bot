@@ -7,7 +7,7 @@ module.exports = {
   usage: "[role name]",
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let inline = true
 
     let role = args.join(` `)

@@ -7,7 +7,7 @@ module.exports = {
   aliases: ['s'],
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let queue = bot.queue.get(message.guild.id);
     
     let emb1 = new Discord.RichEmbed()

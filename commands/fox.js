@@ -7,7 +7,7 @@ module.exports = {
   group: 'fun',
   cooldown: 3,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let msg = await message.channel.send("Generating a fox...");
   try {
     get('https://randomfox.ca/floof').then(res => {

@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 1,
   guildOnly: true,
   args: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     weather.find({ search: args.join(" "), degreeType: "C" }, function(
       err,
       result

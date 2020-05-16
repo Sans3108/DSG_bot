@@ -7,7 +7,7 @@ module.exports = {
   usage: '<@mention>',
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     let mentionedUser = message.mentions.users.first() || message.author;
     let embed = new Discord.RichEmbed()
       .setImage(mentionedUser.displayAvatarURL)

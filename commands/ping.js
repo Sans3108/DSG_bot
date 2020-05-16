@@ -6,7 +6,7 @@ module.exports = {
   group: 'general',
   cooldown: 1,
   guildOnly: true,
-  execute: async (message, args, bot, config) => {
+  execute: async (message, args, bot, config, command, aargs) => {
     const embed1 = new Discord.RichEmbed()
       .setColor(config.color.blue)
       .setDescription("Pinging...");
