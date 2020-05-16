@@ -17,9 +17,9 @@ let f = {
 };
 module.exports = {
   name: "warn",
-  description: "Warn a user!",
+  description: "Warn an user!",
   group: "admin",
-  usage: "[@user || user id] [reason]",
+  usage: "[@user | user id] [reason]",
   cooldown: 1,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {

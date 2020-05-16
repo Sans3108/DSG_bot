@@ -17,9 +17,9 @@ let f = {
 };
 module.exports = {
   name: "warnings",
-  description: "Check the warns of a user!",
+  description: "Check the warns of an user!",
   aliases: ["warns"],
-  usage: "[@user || user id]",
+  usage: "[@user | user id]",
   group: "admin",
   cooldown: 1,
   guildOnly: true,
@@ -108,7 +108,7 @@ module.exports = {
       let list = CASE.warnings
         .sort(compare)
         .map(
-          w => `${w.wid} | **${w.reason}** (By: <@${w.warnedBy}> at ${w.when})`
+          w => `**Case ${w.wid}:** \`${w.reason}\`\n**(By: <@${w.warnedBy}> at ${w.when})**`
         );
       if (!list[0]) {
         list = "None.";

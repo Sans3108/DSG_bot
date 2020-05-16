@@ -17,18 +17,16 @@ let f = {
 };
 module.exports = {
   name: "delwarn",
-  description: "Warn a user!",
-  aliases: ['clearwarn'],
-  usage: '[@user || user id] [warn id || all]',
-  group: "dev",
-  ownerOnly: true,
+  description: "Remove a warning from an user!",
+  aliases: ["clearwarn", "removewarn"],
+  usage: "[@user | user id] [warn id]",
+  group: "admin",
   cooldown: 1,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
     if (
-      //message.member.roles.find(r => r.id === "705840944314056794") ||
-      //message.member.roles.find(r => r.id === "705840476544041060")
-      true
+      message.member.roles.find(r => r.id === "705840944314056794") ||
+      message.member.roles.find(r => r.id === "705840476544041060")
     ) {
       await message.guild
         .fetchMembers()
@@ -50,7 +48,9 @@ module.exports = {
 
       let emb4 = new Discord.RichEmbed()
         .setColor(config.color.red)
-        .setDescription(`Please specify which warn you want to delete!`);
+        .setDescription(
+          `Please specify which warn you want to delete!\n(Check the number before the warning)`
+        );
       if (!args[1]) return message.channel.send(emb4);
 
       let idORmention = false;
@@ -76,6 +76,18 @@ module.exports = {
         .setDescription("Invalid user!");
 
       if (ret) return message.channel.send(emb1);
+      
+      let emb5 = new Discord.RichEmbed()
+        .setColor(config.color.red)
+        .setDescription(`That is not a valid warn id! \`${args[1]}\``);
+      
+      let v;
+      if (parseInt(args[1]) > 0) {
+        v = false;
+      } else {
+        v = true;
+      }
+      if (v) return message.channel.send(emb5);
 
       let emb2 = new Discord.RichEmbed()
         .setColor(config.color.red)
@@ -92,11 +104,11 @@ module.exports = {
           "That user has no warnings for you to delete because they are too powerful! :)"
         );
 
-      /*if (
+      if (
         chk.roles.find(r => r.id === "705840944314056794") ||
         chk.roles.find(r => r.id === "705840476544041060")
       )
-        return message.channel.send(emb7);*/
+        return message.channel.send(emb7);
 
       //--------------
       if (db.fetch(user) === null) {
@@ -106,9 +118,25 @@ module.exports = {
       }
 
       let CASE = db.fetch(user);
-      
 
-      //db.set(user, CASE);
+      let warning = CASE.warnings.find(i => parseInt(i.wid) === parseInt(args[1]));
+      let emb9 = new Discord.RichEmbed()
+        .setColor(config.color.red)
+        .setDescription(`Cannot find a matching case id. \`${parseInt(args[1])}\``);
+      if(!warning) return message.channel.send(emb9);
+
+      let index = CASE.warnings.indexOf(warning);
+      
+      CASE.warnings.splice(index, 1);
+
+      db.set(user, CASE);
+      
+      let emb8 = new Discord.RichEmbed()
+        .setColor(config.color.green)
+        .setDescription(`Deleted warning (\`${parseInt(args[1])}\`) from <@${user}>.`);
+      
+      message.channel.send(emb8);
+      
     } else return;
   }
 };
