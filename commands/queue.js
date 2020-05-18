@@ -14,10 +14,12 @@ module.exports = {
         .setColor(config.color.red)
         .setDescription('⚠ No music is being played!');
     if (!queue) return message.channel.send(emb1)
-
+    
+    let icon = message.guild.iconURL.slice(0, -3) + 'gif';
+    
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
-        .setThumbnail(bot.user.avatarURL)
+        .setThumbnail(icon)
         .setDescription(`**<<< Music Queue >>>**\n${queue.musics.map(music => 
             `**-** ${music.title}`).join('\n')}\n\n🎵 **Currently listening to:\n** ${queue.musics[0].title}`);
 

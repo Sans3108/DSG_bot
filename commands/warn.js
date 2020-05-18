@@ -111,7 +111,8 @@ module.exports = {
         wid: currId,
         reason: reason,
         warnedBy: message.author.id,
-        when: time
+        when: time,
+        where: message.channel.id
       });
       db.set(user, CASE);
 

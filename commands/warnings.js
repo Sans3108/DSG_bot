@@ -102,13 +102,13 @@ module.exports = {
       let u = await message.guild.fetchMember(user);
 
       function compare(a, b) {
-        return Number(a.position) - Number(b.position);
+        return Number(a.wid) - Number(b.wid);
       }
 
       let list = CASE.warnings
         .sort(compare)
         .map(
-          w => `**Case ${w.wid}:** \`${w.reason}\`\n**(By: <@${w.warnedBy}> at ${w.when})**`
+          w => `\`Case ${w.wid}:\` **${w.reason}**\n(By: <@${w.warnedBy}> in <#${w.where}> at ${w.when})`
         );
       if (!list[0]) {
         list = "None.";

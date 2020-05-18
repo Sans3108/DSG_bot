@@ -25,7 +25,7 @@ module.exports = {
             `\nPlease contact <@${config.ownerID}> or any staff and show them this error.`
         );
       });
-    let icon = message.guild.iconURL;
+    let icon = message.guild.iconURL.slice(0, -3) + 'gif';
     let embed = new Discord.RichEmbed()
       .setTitle("**Server Info**")
       .setColor(config.color.green)
