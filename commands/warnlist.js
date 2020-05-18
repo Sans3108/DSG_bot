@@ -43,13 +43,11 @@ module.exports = {
 
         let list = CASE.warnings.sort(compare).map(w =>`\`Case ${w.wid}:\` **${w.reason}**\n(By: <@${w.warnedBy}> in <#${w.where}> at ${w.when})`);
         
-        if (!list[0]) {
-          list = "None. (User exists in the database.)";
+        if (list[0]) {
+         emb1.addField(`Tag: **${USER.user.tag}** ID: **${USER.user.id}**`, list); 
         }
         
-        emb1.addField(`Tag: **${USER.user.tag}** ID: **${USER.user.id}**`, list);
-        
-        });
+      });
 
       message.channel
         .send(emb1)
