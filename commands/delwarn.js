@@ -17,7 +17,7 @@ let f = {
 };
 module.exports = {
   name: "delwarn",
-  description: "Remove a warning from an user!",
+  description: "Remove warnings from an user!",
   aliases: ["clearwarn", "removewarn"],
   usage: "[@user | user id] [warn id | all]",
   group: "admin",
