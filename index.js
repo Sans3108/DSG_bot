@@ -221,16 +221,6 @@ bot.on("message", async message => {
   }
 });
 
-bot.on("guildMemberRemove", async member => {
-  // Cleanup of the DB if a user is removed from guild
-  
-  let CASE = db.fetch(member.user.id);
-  
-  if(CASE) {
-    db.delete(member.user.id);
-  }
-});
-
 // Bot login
 bot.login(process.env.TOKEN);
 

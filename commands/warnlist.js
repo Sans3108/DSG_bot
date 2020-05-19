@@ -44,10 +44,6 @@ module.exports = {
         let CASE = db.fetch(item);
         
         let USER = message.guild.members.get(item);
-        
-        if(!USER) {
-          db.delete(item);
-        }
 
         let list = CASE.warnings.sort(compare).map(w =>`\`Case ${w.wid}:\` **${w.reason}**\n(By: <@${w.warnedBy}> in <#${w.where}> at ${w.when})`);
         

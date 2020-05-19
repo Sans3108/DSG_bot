@@ -19,7 +19,7 @@ module.exports = {
   name: "delwarn",
   description: "Remove a warning from an user!",
   aliases: ["clearwarn", "removewarn"],
-  usage: "[@user | user id] [warn id]",
+  usage: "[@user | user id] [warn id | all]",
   group: "admin",
   cooldown: 1,
   guildOnly: true,
@@ -118,6 +118,16 @@ module.exports = {
       }
 
       let CASE = db.fetch(user);
+      
+      if(args[1].toLowerCase() === 'all') {
+        db.delete(user);
+        
+        let emb10 = new Discord.RichEmbed()
+          .setColor(config.color.green)
+          .setDescription(`Deleted \`all\` warnings from <@${user}>.`);
+      
+        return message.channel.send(emb10);
+      }
 
       let warning = CASE.warnings.find(i => parseInt(i.wid) === parseInt(args[1]));
       let emb9 = new Discord.RichEmbed()

@@ -1,6 +1,6 @@
 {
   "name": "dsgBot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "scripts": {
     "node-start": "node index.js",
