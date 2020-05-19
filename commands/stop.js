@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = {
   name: "stop",
   description: "Stops the playback and leaves the channel!",
-  aliases: ["leave"],
+  aliases: ["leave", "fuckoff"],
   group: "music",
   cooldown: 1,
   guildOnly: true,

@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
 
 module.exports = {
-  name: "queue",
-  description: "Check the current queue!",
+  name: "now-playing",
+  description: "Check what song is currently playing!",
   group: 'music',
-  aliases: ['q'],
-  cooldown: 2,
+  aliases: ['np', 'nowplaying'],
+  cooldown: 1,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
     let queue = bot.queue.get(message.guild.id);
@@ -20,8 +20,7 @@ module.exports = {
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
         .setThumbnail(icon)
-        .setDescription(`**<<< Music Queue >>>**\n${queue.musics.map(music => 
-            `**-** ${music.title} \`Requested by: ${music.reqBy}\``).slice(1).join('\n')}\n\n🎵 **Currently listening to:\n** ${queue.musics[0].title} \`Requested by: ${queue.musics[0].reqBy}\``);
+        .setDescription(`🎵 **Playing now:**\n${queue.musics[0].title}\n\`Requested by: ${queue.musics[0].reqBy}\``);
 
     message.channel.send(embed);
   }

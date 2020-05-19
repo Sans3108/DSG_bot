@@ -146,7 +146,8 @@ bot.on("message", async message => {
     let music = {
       id: video.id,
       title: video.title,
-      url: `https://www.youtube.com/watch?v=${video.id}`
+      url: `https://www.youtube.com/watch?v=${video.id}`,
+      reqBy: message.author.tag
     };
     if (!queue) {
       let queueConstruct = {
