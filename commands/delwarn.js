@@ -82,7 +82,7 @@ module.exports = {
         .setDescription(`That is not a valid warn id! \`${args[1]}\``);
       
       let v;
-      if (parseInt(args[1]) > 0) {
+      if (parseInt(args[1]) > 0 || args[1].toLowerCase() === 'all') {
         v = false;
       } else {
         v = true;
