@@ -117,6 +117,7 @@ module.exports = {
       let emb5 = new Discord.RichEmbed()
         .setColor(config.color.blue)
         .setTitle(`Warnings for ${u.user.username}:`)
+        .setThumbnail(u.user.displayAvatarURL)
         .setAuthor(u.user.username, u.user.displayAvatarURL)
         .setDescription(list);
 

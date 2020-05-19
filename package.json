@@ -18,13 +18,13 @@
     "https": "^1.0.0",
     "moment": "2.24.0",
     "ms": "2.1.2",
+    "node-opus": "0.3.3",
     "os": "0.1.1",
+    "quick.db": "^7.1.1",
+    "simple-youtube-api": "5.2.1",
     "snekfetch": "4.0.4",
     "superagent": "5.1.0",
     "weather-js": "^2.0.0",
-    "ytdl": "0.13.1",
-    "simple-youtube-api": "5.2.1",
-    "node-opus": "0.3.3",
-    "quick.db": "^7.1.1"
+    "ytdl": "0.13.1"
   }
 }

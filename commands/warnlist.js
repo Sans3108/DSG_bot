@@ -5,7 +5,7 @@ module.exports = {
   name: "warnlist",
   description: "Lists all the existing warnings for everyone!",
   group: "admin",
-  cooldown: 1,
+  cooldown: 120,
   aliases: ["listwarns"],
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
@@ -31,31 +31,43 @@ module.exports = {
       let emb1 = new Discord.RichEmbed()
         .setColor(config.color.blue)
         .setThumbnail(icon)
-        .setTitle("Warn list for **" + message.guild.name + "**:");
-
-      function compare(a, b) {
-            return Number(a.wid) - Number(b.wid);
-          }
+        .setTitle("Warn list for **" + message.guild.name + "**:")
+        .setDescription('It will take a bit to fetch and display all the warnings :/\nBlame Discord\'s API limitations for this...')
+        
+      message.channel.send(emb1);
       
-      let ALL = db.all().map(i => i.ID).forEach(item => {
+      function compare(a, b) {
+        return Number(a.wid) - Number(b.wid);
+      }
+      
+      await db.all().map(i => i.ID).forEach(item => {
         let CASE = db.fetch(item);
+        
         let USER = message.guild.members.get(item);
+        
+        if(!USER) {
+          db.delete(item);
+        }
 
         let list = CASE.warnings.sort(compare).map(w =>`\`Case ${w.wid}:\` **${w.reason}**\n(By: <@${w.warnedBy}> in <#${w.where}> at ${w.when})`);
         
-        if (list[0]) {
-         emb1.addField(`Tag: **${USER.user.tag}** ID: **${USER.user.id}**`, list); 
-        }
+        if (USER && list[0]) {
+          
+          let emb = new Discord.RichEmbed()
+            .setColor(config.color.blue)
+            .setAuthor(USER.user.tag, USER.user.displayAvatarURL)
+            .setFooter(`ID: ${item}`)
+            .setDescription(list);
         
+          message.channel.send(emb);
+        }
       });
-
-      message.channel
-        .send(emb1)
-        .catch(e =>
-          message.channel.send(
-            "Most likely the message is too long, please contact Sans and show this to him."
-          )
-        );
+      
+      let emb2 = new Discord.RichEmbed()
+        .setColor(config.color.green)
+        .setDescription('Done fetching all the warnings.');
+      
+      message.channel.send(emb2);
     } else return;
   }
 };
