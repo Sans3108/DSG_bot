@@ -21,6 +21,7 @@ module.exports = {
     
     let minutes = timeLeft.minutes
     let pre_seconds = timeLeft.seconds
+    let hours = timeLeft.hours
     let seconds;
     
     if(pre_seconds < 10) {
@@ -28,8 +29,14 @@ module.exports = {
     } else {
       seconds = pre_seconds;
     }
-
-    let finalTime = `${minutes}:${seconds}`
+    
+    let finalTime;
+    
+    if(hours > 0) {
+      finalTime = `${hours}:${minutes}:${seconds}` 
+    } else {
+      finalTime = `${minutes}:${seconds}`
+    }
 
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
