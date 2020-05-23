@@ -17,10 +17,27 @@ module.exports = {
     
     let icon = message.guild.iconURL.slice(0, -3) + 'gif';
     
+    const timeLeft = queue.musics[0].vid.duration
+    
+    let minutes = timeLeft.minutes
+    let pre_seconds = timeLeft.seconds
+    let seconds;
+    
+    if(pre_seconds < 10) {
+      seconds = '0' + pre_seconds;
+    } else {
+      seconds = pre_seconds;
+    }
+
+    let finalTime = `${minutes}:${seconds}`
+
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
         .setThumbnail(icon)
-        .setDescription(`🎵 **Playing now:**\n${queue.musics[0].title}\n\`Requested by: ${queue.musics[0].reqBy}\``);
+        .setAuthor(`🎵 Playing now:`, bot.user.displayAvatarURL)
+        .setTitle(`**${queue.musics[0].title}**`)
+        .setURL(`${queue.musics[0].url}`)
+        .setDescription(`Duration: ${finalTime}\nChannel: ${queue.musics[0].vid.channel.title}\n\n\`Requested by: ${queue.musics[0].reqBy}\``);
 
     message.channel.send(embed);
   }

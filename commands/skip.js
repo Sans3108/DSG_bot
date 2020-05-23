@@ -10,15 +10,28 @@ module.exports = {
   execute: async (message, args, bot, config, command, aargs) => {
     let queue = bot.queue.get(message.guild.id);
     
+    let VC = message.member.voiceChannel;
+
     let emb1 = new Discord.RichEmbed()
-        .setColor(config.color.red)
-        .setDescription('Please join a voice channel to run this command! ' + message.author);
+      .setColor(config.color.red)
+      .setDescription(
+        `Please join a channel to use this command! ${message.author}`
+    );
+    
+    let emb5 = new Discord.RichEmbed()
+      .setColor(config.color.red)
+      .setDescription(
+        `Please join the same channel as me to use this command! ${message.author}`
+    );
+
+    if (!VC) return message.channel.send(emb1);
+    
+    if (message.guild.me.voiceChannel && VC.id !== message.guild.me.voiceChannel.id) return message.channel.send(emb5);
     
     let emb2 = new Discord.RichEmbed()
         .setColor(config.color.red)
         .setDescription('⚠ No music is being played!');
     
-    if (!message.member.voiceChannel) return message.channel.send(emb1);
     if (!queue) return message.channel.send(emb2);
 
     if (message.member.hasPermission('ADMINISTRATOR') || message.member.roles.find(r => r.name.toLowerCase() === "dj")) {

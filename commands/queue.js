@@ -20,8 +20,8 @@ module.exports = {
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
         .setThumbnail(icon)
-        .setDescription(`**<<< Music Queue >>>**\n${queue.musics.map(music => 
-            `**-** ${music.title} \`Requested by: ${music.reqBy}\``).slice(1).join('\n')}\n\n🎵 **Currently listening to:\n** ${queue.musics[0].title} \`Requested by: ${queue.musics[0].reqBy}\``);
+        .setTitle('**<<< Music Queue >>>**')
+        .setDescription(`🎵 **Currently listening to:\n** ` + `[${queue.musics[0].title}](${queue.musics[0].url})` +` \`Requested by: ${queue.musics[0].reqBy}\`\n\n**__Next up:__**\n${queue.musics.map(music => `**-** ` + `[${music.title}](${music.url})` + ` \`Requested by: ${music.reqBy}\``).slice(1).join('\n')}`);
 
     message.channel.send(embed);
   }

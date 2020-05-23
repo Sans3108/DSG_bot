@@ -5,11 +5,11 @@ let config = {
 }
 
 module.exports = {
-  name: "help",
-  description: "Lists all of my commands or info about a specific command.",
-  aliases: ["commands", "cmds"],
+  name: "dev-help",
+  description: "Lists all of my developer commands.",
+  aliases: ["dev-commands", "dev-cmds"],
   usage: "[command name]",
-  group: "general",
+  group: "dev",
   cooldown: 3,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
@@ -35,7 +35,7 @@ module.exports = {
 
       //data.push(commands.filter(c => !c.ownerOnly).map(command => '_`' + prefix + command.name + '`_' + ` - ${command.description}`).join('\n'));
 
-      const groups = ["general", "admin", "info", "fun", "music"];
+      const groups = ["dev"];
       await groups.forEach(item => {
         let a = commands
           .filter(c => c.group === item)
@@ -52,7 +52,7 @@ module.exports = {
       embed5.setColor(color.blue);
       //embed5.setDescription(data, { split: true });
       embed5.setFooter(
-        `You can send "${config.prefix}help [command name]" to get info on a specific command!`
+        `You can send "${config.prefix}dev-help [command name]" to get info on a specific command!`
       );
 
       return message.channel.send(embed5);

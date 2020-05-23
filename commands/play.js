@@ -5,7 +5,6 @@ module.exports = {
   description: "Play a song!",
   aliases: ["p"],
   group: "music",
-  disabled: true,
   cooldown: 2,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
@@ -15,9 +14,17 @@ module.exports = {
       .setColor(config.color.red)
       .setDescription(
         `Please join a channel to use this command! ${message.author}`
-      );
+    );
+    
+    let emb5 = new Discord.RichEmbed()
+      .setColor(config.color.red)
+      .setDescription(
+        `Please join the same channel as me to use this command! ${message.author}`
+    );
 
     if (!VC) return message.channel.send(emb1);
+    
+    if (message.guild.me.voiceChannel && VC.id !== message.guild.me.voiceChannel.id) return message.channel.send(emb5);
 
     let url = args[0] ? args[0].replace(/<(.+)>/g, "$1") : "";
     let pl = /^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/;
@@ -32,6 +39,7 @@ module.exports = {
     if (!url || !searchString) return message.channel.send(emb2);
 
     let perms = VC.permissionsFor(bot.user);
+    
     if (!perms.has("CONNECT"))
       return message.reply(
         "I do not have permissions to connect to voice channels!"
