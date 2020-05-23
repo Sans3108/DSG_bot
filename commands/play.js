@@ -5,6 +5,7 @@ module.exports = {
   description: "Play a song!",
   aliases: ["p"],
   group: "music",
+  disabled: true,
   cooldown: 2,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
