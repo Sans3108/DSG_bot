@@ -40,7 +40,7 @@ module.exports = {
         return Number(a.wid) - Number(b.wid);
       }
       
-      await db.all().map(i => i.ID).forEach(item => {
+      await db.all().filter(i => i.ID !== 'CONFIG').map(i => i.ID).forEach(item => {
         let CASE = db.fetch(item);
         
         let USER = message.guild.members.get(item);
@@ -63,7 +63,11 @@ module.exports = {
         .setColor(config.color.green)
         .setDescription('Done fetching all the warnings.');
       
-      message.channel.send(emb2);
+      await message.channel.send(emb2);
+      if(bot.f.chance(5)) {
+        message.channel.send('Damn that\'s a lotta warns :v');
+        // Easter eggs for the win baby :)
+      }
     } else return;
   }
 };

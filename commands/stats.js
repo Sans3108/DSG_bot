@@ -10,12 +10,22 @@ module.exports = {
   cooldown: 3,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
+    await message.guild
+      .fetchMembers()
+      .then(() => console.log("Fetched all members from " + message.guild.name))
+      .catch(e => {
+        console.log(e.stack);
+        message.channel.send(
+          e.message +
+            `\nPlease contact <@${config.ownerID}> or any staff and show them this error.`
+        );
+      });
 
     cpuStat.usagePercent(function(err, percent, seconds) {
       if (err) {
         return console.log(err);
       }
-      
+
       let totalSeconds = bot.uptime / 1000;
       let days = Math.floor(totalSeconds / 86400);
       totalSeconds %= 86400;

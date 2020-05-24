@@ -17,6 +17,9 @@ bot.commands = new Discord.Collection();
 bot.youtube = new YouTube(YouTubeAPIKey);
 bot.queue = new Map();
 
+const f = require('./f.js');
+bot.f = f;
+
 const commandFiles = fs
   .readdirSync("./commands")
   .filter(file => file.endsWith(".js"));

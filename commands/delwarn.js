@@ -1,20 +1,6 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
 
-let f = {
-  getIDfromMention: function(a) {
-    if (typeof a !== typeof "string")
-      return new Error("Param 1 is not a string!");
-
-    if (a.startsWith("<@") && a.endsWith(">")) {
-      let id = a.slice(2, -1);
-      if (id.startsWith("!")) {
-        id = id.slice(1);
-      }
-      return id;
-    } else return new Error("Doesn't start with <@ and end with >");
-  }
-};
 module.exports = {
   name: "delwarn",
   description: "Remove warnings from an user!",
@@ -63,7 +49,7 @@ module.exports = {
       if (idORmention) {
         user = args[0];
       } else {
-        let temp = f.getIDfromMention(args[0]);
+        let temp = bot.f.getIDfromMention(args[0]);
         if (message.guild.member(temp)) {
           user = temp;
         } else {

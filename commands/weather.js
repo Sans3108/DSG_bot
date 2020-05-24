@@ -5,6 +5,7 @@ module.exports = {
   name: "weather",
   description: "Check the weather!",
   group: "general",
+  usage: '[city]',
   cooldown: 1,
   guildOnly: true,
   args: true,

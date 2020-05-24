@@ -1,20 +1,6 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
 
-let f = {
-  getIDfromMention: function(a) {
-    if (typeof a !== typeof "string")
-      return new Error("Param 1 is not a string!");
-
-    if (a.startsWith("<@") && a.endsWith(">")) {
-      let id = a.slice(2, -1);
-      if (id.startsWith("!")) {
-        id = id.slice(1);
-      }
-      return id;
-    } else return new Error("Doesn't start with <@ and end with >");
-  }
-};
 module.exports = {
   name: "warn",
   description: "Warn an user!",
@@ -60,7 +46,7 @@ module.exports = {
       if (idORmention) {
         user = args[0];
       } else {
-        let temp = f.getIDfromMention(args[0]);
+        let temp = bot.f.getIDfromMention(args[0]);
         if (message.guild.member(temp)) {
           user = temp;
         } else {
@@ -134,7 +120,11 @@ module.exports = {
         console.log("Probably cannot DM user, see info below.\n" + e.stack)
       );
 
-      message.channel.send(emb5);
+      await message.channel.send(emb5);
+      if(bot.f.chance(10)) {
+        message.channel.send('**F**');
+        // Easter eggs for the win baby :)
+      }
     } else return;
   }
 };
