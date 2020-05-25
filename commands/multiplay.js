@@ -5,6 +5,7 @@ module.exports = {
   description: "Play multiple songs at a time! (Each argument is considered a search string, this command is best used with links)",
   aliases: ["mp"],
   group: "music",
+  args: true,
   cooldown: 300,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
