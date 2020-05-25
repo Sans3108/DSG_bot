@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 300,
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
-    if(args[9]) return message.reply('you cannot queue more than 10 songs at a time.');
+    if(args[10]) return message.reply('you cannot queue more than 10 songs at a time.');
     
     args.forEach(async ITEM => {
       let VC = message.member.voiceChannel;
