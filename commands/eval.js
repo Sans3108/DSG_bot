@@ -8,6 +8,7 @@ function clean(text) {
 
 const Discord = require("discord.js");
 const db = require('quick.db');
+const _ = require('lodash');
 
 module.exports = {
   name: "eval",

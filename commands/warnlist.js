@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
+const _ = require("lodash");
 
 module.exports = {
   name: "warnlist",
   description: "Lists all the existing warnings for everyone!",
   group: "admin",
-  cooldown: 120,
+  cooldown: 300,
   aliases: ["listwarns"],
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
@@ -32,7 +33,7 @@ module.exports = {
         .setColor(config.color.blue)
         .setThumbnail(icon)
         .setTitle("Warn list for **" + message.guild.name + "**:")
-        .setDescription('It will take a bit to fetch and display all the warnings :/\nBlame Discord\'s API limitations for this...')
+        .setDescription('It will probably take a bit to fetch everything...\nI\'ll let you know when I\'m done!')
         
       message.channel.send(emb1);
       
@@ -40,23 +41,26 @@ module.exports = {
         return Number(a.wid) - Number(b.wid);
       }
       
-      await db.all().filter(i => i.ID !== 'CONFIG').map(i => i.ID).forEach(item => {
-        let CASE = db.fetch(item);
+      let all = db.all().filter(i => i.ID !== 'CONFIG').map(i => i.ID);
+      let chunks = _.chunk(all, 25);
         
-        let USER = message.guild.members.get(item);
+      await chunks.forEach(async i => {
+        let emb = new Discord.RichEmbed()
+          .setColor(config.color.blue);
+        
+        await i.forEach(item => {
+          let CASE = db.fetch(item);
+        
+          let USER = message.guild.members.get(item);
 
-        let list = CASE.warnings.sort(compare).map(w =>`\`Case ${w.wid}:\` **${w.reason}**\n(By: <@${w.warnedBy}> in <#${w.where}> at ${w.when})`);
+          let list = CASE.warnings.sort(compare).map(w =>`\`Case ${w.wid}:\` **${w.reason}**\n(By: <@${w.warnedBy}> in <#${w.where}> at ${w.when})`);
         
-        if (USER && list[0]) {
-          
-          let emb = new Discord.RichEmbed()
-            .setColor(config.color.blue)
-            .setAuthor(USER.user.tag, USER.user.displayAvatarURL)
-            .setFooter(`ID: ${item}`)
-            .setDescription(list);
+          if (USER && list[0]) {        
+            emb.addField(`Tag: ***${USER.user.tag}***   ID: ***${item}***`, list);
+          }
+        })
         
-          message.channel.send(emb);
-        }
+        await message.channel.send(emb);
       });
       
       let emb2 = new Discord.RichEmbed()

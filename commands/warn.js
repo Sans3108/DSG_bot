@@ -116,9 +116,9 @@ module.exports = {
           `You were warned in \`${message.guild.name}\` for: **${reason}**`
         );
 
-      u.send(emb6).catch(e =>
+      /*u.send(emb6).catch(e =>
         console.log("Probably cannot DM user, see info below.\n" + e.stack)
-      );
+      );*/
 
       await message.channel.send(emb5);
       if(bot.f.chance(10)) {

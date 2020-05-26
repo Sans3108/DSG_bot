@@ -10,6 +10,7 @@ const YouTubeAPIKey = process.env.YTKEY;
 const YouTube = require("simple-youtube-api");
 const ytdl = require("ytdl-core");
 const db = require('quick.db');
+const _ = require('lodash');
 
 const bot = new Discord.Client(); //disable @everyone and @here mentions by adding this as a client option     {disableEveryone: true}
 bot.commands = new Discord.Collection();
