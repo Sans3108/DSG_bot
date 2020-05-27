@@ -172,13 +172,26 @@ bot.on("message", async message => {
         bot.play(message.guild, queueConstruct.musics[0]);
       } catch (err) {
         bot.queue.delete(message.guild.id);
-        message.channel.send(`There was an error, please contact staff: ${err}`);
+        message.channel.send(`There was an error, please contact staff: \n${err}`);
       }
     } else {
       queue.musics.push(music);
+      const timeLeft = music.vid.duration
+      let minutes = timeLeft.minutes
+      let pre_seconds = timeLeft.seconds
+      let seconds;
+      if(pre_seconds < 10) {
+        seconds = '0' + pre_seconds;
+      } else {
+        seconds = pre_seconds;
+      }
+      let finalTime = `${minutes}:${seconds}`;
       let emb1 = new Discord.RichEmbed()
         .setColor(config.color.green)
-        .setDescription(`🎵 **${music.title}** was added to the queue!`);
+        .setAuthor(`🎵 Added to queue:`, bot.user.displayAvatarURL)
+        .setTitle(`**${music.title}**`)
+        .setURL(`${music.url}`)
+        .setDescription(`Duration: ${finalTime}\nChannel: ${queue.musics[0].vid.channel.title}`);
       
       if (playlist) return;
       else
@@ -209,7 +222,7 @@ bot.on("message", async message => {
     dispatcher.setVolumeLogarithmic(queue.volume / 100);
     let emb3 = new Discord.RichEmbed()
         .setColor(config.color.green)
-        .setDescription(`🎵 Now playing: **${music.title}**`);
+        .setDescription(`🎵 Now playing: **` + `[${music.title}](${music.url})` + `**`);
     queue.textChannel.send(emb3);
   };
 

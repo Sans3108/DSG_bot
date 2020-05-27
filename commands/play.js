@@ -57,10 +57,24 @@ module.exports = {
         let video = await bot.youtube.getVideoByID(vid.id);
         await bot.handleVideo(video, message, VC, true);
       }
+      const timeLeft = playlist.vid.duration
+      let minutes = timeLeft.minutes
+      let pre_seconds = timeLeft.seconds
+      let seconds;
+      if(pre_seconds < 10) {
+        seconds = '0' + pre_seconds;
+      } else {
+        seconds = pre_seconds;
+      }
+      let finalTime = `${minutes}:${seconds}`;
       let emb3 = new Discord.RichEmbed()
+        .setDescription(`🎵 **` + `[${playlist.title}](${playlist.url})` + `** was added to the queue!`)
         .setColor(config.color.green)
-        .setDescription(`🎵 **${playlist.title}** was added to the queue!`);
-      return message.channel.send(emb3);
+        .setAuthor(`🎵 Added to queue:`, bot.user.displayAvatarURL)
+        .setTitle(`**${playlist.title}**`)
+        .setURL(`${playlist.url}`)
+        .setDescription(`Duration: ${finalTime}\nChannel: ${playlist.vid.channel.title}`);
+      return message.channel.send('<@366536353418182657>', {embed: emb3}).catch(e => message.channel.send('There was an error, please contact staff.\n' + e.message))
     } else {
       try {
         var video = await bot.youtube.getVideo(url);
@@ -73,7 +87,7 @@ module.exports = {
           console.error(err);
 
           let emb4 = new Discord.RichEmbed()
-            .setColor(config.color.green)
+            .setColor(config.color.red)
             .setDescription(`Couldn't find any match for: \`${searchString}\``);
           return message.channel.send(emb4);
         }

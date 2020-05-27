@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 
 module.exports = {
   name: "pause",
+  aliases: ['resume'],
   description: "Pause and unpause the music!",
   group: "music",
   cooldown: 2,
@@ -58,7 +59,7 @@ module.exports = {
       let emb6 = new Discord.RichEmbed()
         .setColor(config.color.green)
         .setDescription(`⚠ No music is being played!`);
-      return message.channe.send(emb6);
+      return message.channel.send(emb6);
     } else {
       let emb3 = new Discord.RichEmbed()
         .setColor(config.color.red)

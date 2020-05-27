@@ -6,7 +6,7 @@ module.exports = {
   name: "warnlist",
   description: "Lists all the existing warnings for everyone!",
   group: "admin",
-  cooldown: 180,
+  cooldown: 120,
   aliases: ["listwarns"],
   guildOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
@@ -35,7 +35,13 @@ module.exports = {
         let member = message.guild.members.get(item);
       
         if(member) {
-          filtered.push(item);
+          if(db.fetch(item) !== null) {
+            let warnCheck = db.fetch(item);
+            
+            if(warnCheck.warnings[0]) {
+              filtered.push(item);
+            }
+          }
         }
       });
     
