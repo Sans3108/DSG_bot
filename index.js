@@ -191,7 +191,7 @@ bot.on("message", async message => {
         .setAuthor(`🎵 Added to queue:`, bot.user.displayAvatarURL)
         .setTitle(`**${music.title}**`)
         .setURL(`${music.url}`)
-        .setDescription(`Duration: ${finalTime}\nChannel: ${queue.musics[0].vid.channel.title}`);
+        .setDescription(`Duration: ${finalTime}\nChannel: ${music.vid.channel.title}`);
       
       if (playlist) return;
       else
