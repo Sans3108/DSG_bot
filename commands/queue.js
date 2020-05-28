@@ -18,19 +18,66 @@ module.exports = {
     
       let icon = message.guild.iconURL.slice(0, -3) + 'gif';
 
-      let all = queue.musics.map(music => [music.title, music.url, music.reqBy]).slice(1);
+      let all = queue.musics.map(music => [music.title, music.url, music.reqBy, music.seconds]).slice(1);
     
-      if(!all[0]) {
+      let howMany = 10;
+    
+      if(!all[howMany]) {
+        let timeLeft = 0;
+        await all.forEach(item => {
+          timeLeft = timeLeft + item[3]
+        });
+        
+        timeLeft = timeLeft + queue.musics[0].seconds;
+        
+        let hours = Math.floor(timeLeft / 3600);
+        let r1 = timeLeft % 3600;
+        let minutes = Math.floor(r1 / 60);
+        let seconds = Math.floor(r1 % 60);
+        let finalTime;
+
+        if (hours !== 0 && minutes !== 0 && seconds !== 0) {
+          finalTime = `${hours}h ${minutes}m ${seconds}s`;
+        } else if (hours !== 0 && minutes !== 0 && seconds === 0) {
+          finalTime = `${hours}h ${minutes}m`;
+        } else if (hours !== 0 && minutes === 0 && seconds === 0) {
+          finalTime = `${hours}h`;
+        } else if (hours !== 0 && minutes === 0 && seconds !== 0) {
+          finalTime = `${hours}h ${seconds}s`;
+        } else if (hours === 0 && minutes !== 0 && seconds !== 0) {
+          finalTime = `${minutes}m ${seconds}s`;
+        } else if (hours === 0 && minutes !== 0 && seconds === 0) {
+          finalTime = `${minutes}m`;
+        } else if (hours === 0 && minutes === 0 && seconds === 0) {
+          finalTime = `${seconds}s`;
+        } else if (hours === 0 && minutes === 0 && seconds !== 0) {
+          finalTime = `${seconds}s`;
+        } else {
+          finalTime = "`error`";
+        }
+        
         let specialEmb = new Discord.RichEmbed()
           .setColor(config.color.blue)
           .setThumbnail(icon)
           .setTitle("**Queue for " + message.guild.name + ":**")
           .setDescription(`🎵 __**Currently listening to:**__\n` + `[${queue.musics[0].title}](${queue.musics[0].url})\n`);
         
+        if(all.length + 1 === 1) {
+          specialEmb.setFooter(`${all.length + 1} song, approx. ${finalTime}`);
+        } else {
+          specialEmb.setFooter(`${all.length + 1} songs, approx. ${finalTime}`);
+        }
+        
+        let counter = 0;
+        await all.forEach(item => {
+          counter = counter + 1;
+          specialEmb.addField(`**${counter}.** (By: ${item[2]})`, `[${item[0]}](${item[1]})`);
+        });
+        
         return message.channel.send(specialEmb);
       }
     
-      let chunks = _.chunk(all, 10);
+      let chunks = _.chunk(all, howMany);
       let pages = [];
       let totalPages = chunks.length;
       let count = 0;
@@ -48,8 +95,47 @@ module.exports = {
           emb.addField(`**${songCount}.** (By: ${item[2]})`, `[${item[0]}](${item[1]})`);
         });
         
+        let timeLeft = 0;
+        await all.forEach(item => {
+          timeLeft = timeLeft + item[3]
+        });
+        
+        timeLeft = timeLeft + queue.musics[0].seconds;
+        
+        let hours = Math.floor(timeLeft / 3600);
+        let r1 = timeLeft % 3600;
+        let minutes = Math.floor(r1 / 60);
+        let seconds = Math.floor(r1 % 60);
+        let finalTime;
+
+        if (hours !== 0 && minutes !== 0 && seconds !== 0) {
+          finalTime = `${hours}h ${minutes}m ${seconds}s`;
+        } else if (hours !== 0 && minutes !== 0 && seconds === 0) {
+          finalTime = `${hours}h ${minutes}m`;
+        } else if (hours !== 0 && minutes === 0 && seconds === 0) {
+          finalTime = `${hours}h`;
+        } else if (hours !== 0 && minutes === 0 && seconds !== 0) {
+          finalTime = `${hours}h ${seconds}s`;
+        } else if (hours === 0 && minutes !== 0 && seconds !== 0) {
+          finalTime = `${minutes}m ${seconds}s`;
+        } else if (hours === 0 && minutes !== 0 && seconds === 0) {
+          finalTime = `${minutes}m`;
+        } else if (hours === 0 && minutes === 0 && seconds === 0) {
+          finalTime = `${seconds}s`;
+        } else if (hours === 0 && minutes === 0 && seconds !== 0) {
+          finalTime = `${seconds}s`;
+        } else {
+          finalTime = "`error`";
+        }
+        
         count = count + 1;
-        emb.setFooter(`Page: ${count}/${totalPages}`);
+
+        if(all.length + 1 === 1) {
+          emb.setFooter(`Page: ${count}/${totalPages} | ${all.length + 1} song, approx. ${finalTime}`);
+        } else {
+          emb.setFooter(`Page: ${count}/${totalPages} | ${all.length + 1} songs, approx. ${finalTime}`);
+        }
+        
         pages.push({ count: count, emb: emb});
       });
 
@@ -74,7 +160,7 @@ module.exports = {
 	      return reaction.emoji.name === '⬅' || reaction.emoji.name === '⏹' || reaction.emoji.name === '➡' && user.id !== bot.user.id && !user.bot;
       };
     
-      const collector = msg.createReactionCollector(filter, { time: 60000 });
+      const collector = msg.createReactionCollector(filter, { time: 30000 });
 
       collector.on('collect', reaction => {
 	    if(reaction.emoji.name === '⏹') {

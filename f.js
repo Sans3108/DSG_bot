@@ -59,5 +59,16 @@ module.exports = {
     }
     
     return this.arrayRandom(arr);
+  },
+  arrayCount: function(what, array) {
+    if(!Array.isArray(array)) return Error('Passed argument is not an array!');
+    
+    var count = 0;
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === what) {
+            count++;
+        }
+    }
+    return count;
   }
 };

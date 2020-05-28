@@ -15,11 +15,16 @@ module.exports = {
         .setDescription('⚠ No music is being played!');
     if (!queue) return message.channel.send(emb1)
     
-    let icon = message.guild.iconURL.slice(0, -3) + 'gif';
-    
     const timeLeft = queue.musics[0].vid.duration
     
-    let minutes = timeLeft.minutes
+    let hours = timeLeft.hours
+    let pre_minutes = timeLeft.minutes
+    let minutes;
+    if(pre_minutes < 10) {
+      minutes = '0' + pre_minutes;
+    } else {
+      minutes = pre_minutes;
+    }
     let pre_seconds = timeLeft.seconds
     let seconds;
     
@@ -29,15 +34,20 @@ module.exports = {
       seconds = pre_seconds;
     }
 
-    let finalTime = `${minutes}:${seconds}`
+    let finalTime = `${hours}:${minutes}:${seconds}`
 
+    const d = new Date(queue.musics[0].vid.publishedAt);
+    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
+    const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d)
+    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
+    
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
-        .setThumbnail(icon)
+        .setThumbnail(queue.musics[0].vid.thumbnails.maxres.url)
         .setAuthor(`🎵 Playing now:`, bot.user.displayAvatarURL)
         .setTitle(`**${queue.musics[0].title}**`)
         .setURL(`${queue.musics[0].url}`)
-        .setDescription(`Duration: ${finalTime}\nChannel: ${queue.musics[0].vid.channel.title}\n\n\`Requested by: ${queue.musics[0].reqBy}\``);
+        .setDescription(`Duration: ${finalTime}\nChannel: ${queue.musics[0].vid.channel.title}\nPublished at: ${da}/${mo}/${ye}\n\n\`Requested by: ${queue.musics[0].reqBy}\``);
 
     message.channel.send(embed);
   }

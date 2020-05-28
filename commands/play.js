@@ -7,6 +7,7 @@ module.exports = {
   group: "music",
   cooldown: 2,
   guildOnly: true,
+  ownerOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
     let VC = message.member.voiceChannel;
 
@@ -25,6 +26,28 @@ module.exports = {
     if (!VC) return message.channel.send(emb1);
     
     if (message.guild.me.voiceChannel && VC.id !== message.guild.me.voiceChannel.id) return message.channel.send(emb5);
+    
+    let queue = bot.queue.get(message.guild.id);
+    
+    if (queue) {
+      let all = queue.musics.map(music => music.reqID);
+      
+      if(bot.f.arrayCount(message.author.id, all) > 2) {
+        if (message.member.hasPermission('ADMINISTRATOR') || message.member.roles.find(r => r.name.toLowerCase() === "dj")) {
+          console.log('Queue limit ignored for: ' + message.author.tag);
+        
+          let emb = new Discord.RichEmbed()
+            .setColor(config.color.red)
+            .setDescription('You cannot have more than 3 songs in the queue at a time! ' + message.author);
+          return message.channel.send(emb);
+        } else {
+          let emb = new Discord.RichEmbed()
+            .setColor(config.color.red)
+            .setDescription('You cannot have more than 3 songs in the queue at a time! ' + message.author);
+          return message.channel.send(emb);
+        }
+      }
+    }
 
     let url = args[0] ? args[0].replace(/<(.+)>/g, "$1") : "";
     let pl = /^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/;
@@ -67,14 +90,15 @@ module.exports = {
         seconds = pre_seconds;
       }
       let finalTime = `${minutes}:${seconds}`;
-      let emb3 = new Discord.RichEmbed()
+      /*let emb3 = new Discord.RichEmbed()
         .setDescription(`🎵 **` + `[${playlist.title}](${playlist.url})` + `** was added to the queue!`)
+        .setThumbnail(playlist.vid.thumbnails.maxres.url)
         .setColor(config.color.green)
         .setAuthor(`🎵 Added to queue:`, bot.user.displayAvatarURL)
         .setTitle(`**${playlist.title}**`)
         .setURL(`${playlist.url}`)
-        .setDescription(`Duration: ${finalTime}\nChannel: ${playlist.vid.channel.title}`);
-      return message.channel.send('<@366536353418182657>', {embed: emb3}).catch(e => message.channel.send('There was an error, please contact staff.\n' + e.message))
+        .setDescription(`Duration: ${finalTime}\nChannel: ${playlist.vid.channel.title}`);*/
+      return message.channel.send('Well this is awkward... You should not see this message. Please contact staff to solve this issue.')
     } else {
       try {
         var video = await bot.youtube.getVideo(url);

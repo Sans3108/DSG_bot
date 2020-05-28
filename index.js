@@ -153,7 +153,9 @@ bot.on("message", async message => {
       title: video.title,
       url: `https://www.youtube.com/watch?v=${video.id}`,
       reqBy: message.author.tag,
-      vid: video
+      vid: video,
+      seconds: video.durationSeconds,
+      reqID: message.author.id
     };
     if (!queue) {
       let queueConstruct = {
@@ -177,7 +179,14 @@ bot.on("message", async message => {
     } else {
       queue.musics.push(music);
       const timeLeft = music.vid.duration
-      let minutes = timeLeft.minutes
+      let hours = timeLeft.hours
+      let pre_minutes = timeLeft.minutes
+      let minutes;
+      if(pre_minutes < 10) {
+        minutes = '0' + pre_minutes;
+      } else {
+        minutes = pre_minutes;
+      }
       let pre_seconds = timeLeft.seconds
       let seconds;
       if(pre_seconds < 10) {
@@ -185,7 +194,7 @@ bot.on("message", async message => {
       } else {
         seconds = pre_seconds;
       }
-      let finalTime = `${minutes}:${seconds}`;
+      let finalTime = `${hours}:${minutes}:${seconds}`
       let emb1 = new Discord.RichEmbed()
         .setColor(config.color.green)
         .setAuthor(`🎵 Added to queue:`, bot.user.displayAvatarURL)
@@ -195,7 +204,7 @@ bot.on("message", async message => {
       
       if (playlist) return;
       else
-        return message.channel.send(emb1);
+        return emb1.setThumbnail(music.vid.thumbnails.maxres.url) && message.channel.send(emb1);
     }
     return;
   };
