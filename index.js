@@ -202,9 +202,16 @@ bot.on("message", async message => {
         .setURL(`${music.url}`)
         .setDescription(`Duration: ${finalTime}\nChannel: ${music.vid.channel.title}`);
       
-      if (playlist) return;
-      else
-        return emb1.setThumbnail(music.vid.thumbnails.maxres.url) && message.channel.send(emb1);
+      if (playlist) {
+        return;
+      } else {
+        try {
+          emb1.setThumbnail(music.vid.thumbnails.maxres.url);
+        } catch {
+          emb1.setThumbnail('https://images-ext-2.discordapp.net/external/M2Br4GCCbWTisGsEnqUa-nCp2Kmkt4VZJTxs0uHKtbk/https/i.imgur.com/mBv92H7h.jpg?width=774&height=580');
+        }
+        return message.channel.send(emb1);
+      }
     }
     return;
   };
