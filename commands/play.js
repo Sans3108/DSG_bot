@@ -7,7 +7,6 @@ module.exports = {
   group: "music",
   cooldown: 2,
   guildOnly: true,
-  ownerOnly: true,
   execute: async (message, args, bot, config, command, aargs) => {
     let VC = message.member.voiceChannel;
 
