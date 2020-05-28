@@ -28,7 +28,7 @@ module.exports = {
     if (message.guild.me.voiceChannel && VC.id !== message.guild.me.voiceChannel.id) return message.channel.send(emb5);
     
     let queue = bot.queue.get(message.guild.id);
-    
+    let ret = false;
     if (queue) {
       let all = queue.musics.map(music => music.reqID);
       
@@ -36,13 +36,18 @@ module.exports = {
         if (message.member.hasPermission('ADMINISTRATOR') || message.member.roles.find(r => r.name.toLowerCase() === "dj")) {
           console.log('Queue limit ignored for: ' + message.author.tag);
         } else {
-          let emb = new Discord.RichEmbed()
-            .setColor(config.color.red)
-            .setDescription('You cannot have more than 3 songs in the queue at a time! ' + message.author);
-          return message.channel.send(emb);
+          ret = true;
         }
+      } else {
+        console.log('Max queue songs not reached yet for: ' + message.author.tag);
       }
+    } else {
+      console.log('There is no queue, proceeding...')
     }
+    let embErr = new Discord.RichEmbed()
+      .setColor(config.color.red)
+      .setDescription('You cannot have more than 3 songs in the queue at a time! ' + message.author);
+    if(ret) return  message.channel.send(embErr);
 
     let url = args[0] ? args[0].replace(/<(.+)>/g, "$1") : "";
     let pl = /^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/;
