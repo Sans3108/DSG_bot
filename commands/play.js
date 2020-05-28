@@ -35,11 +35,6 @@ module.exports = {
       if(bot.f.arrayCount(message.author.id, all) > 2) {
         if (message.member.hasPermission('ADMINISTRATOR') || message.member.roles.find(r => r.name.toLowerCase() === "dj")) {
           console.log('Queue limit ignored for: ' + message.author.tag);
-        
-          let emb = new Discord.RichEmbed()
-            .setColor(config.color.red)
-            .setDescription('You cannot have more than 3 songs in the queue at a time! ' + message.author);
-          return message.channel.send(emb);
         } else {
           let emb = new Discord.RichEmbed()
             .setColor(config.color.red)
