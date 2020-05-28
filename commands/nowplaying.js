@@ -43,12 +43,17 @@ module.exports = {
     
     let embed = new Discord.RichEmbed()
         .setColor(config.color.blue)
-        .setThumbnail(queue.musics[0].vid.thumbnails.maxres.url)
         .setAuthor(`🎵 Playing now:`, bot.user.displayAvatarURL)
         .setTitle(`**${queue.musics[0].title}**`)
         .setURL(`${queue.musics[0].url}`)
         .setDescription(`Duration: ${finalTime}\nChannel: ${queue.musics[0].vid.channel.title}\nPublished at: ${da}/${mo}/${ye}\n\n\`Requested by: ${queue.musics[0].reqBy}\``);
-
+    
+    try {
+      embed.setThumbnail(queue.musics[0].vid.thumbnails.maxres.url);
+    } catch {
+      embed.setThumbnail('https://images-ext-2.discordapp.net/external/M2Br4GCCbWTisGsEnqUa-nCp2Kmkt4VZJTxs0uHKtbk/https/i.imgur.com/mBv92H7h.jpg?width=774&height=580');
+     }
+    
     message.channel.send(embed);
   }
 };
