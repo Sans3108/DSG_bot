@@ -208,7 +208,7 @@ bot.on("message", async message => {
         try {
           emb1.setThumbnail(music.vid.thumbnails.maxres.url);
         } catch {
-          emb1.setThumbnail('https://images-ext-2.discordapp.net/external/M2Br4GCCbWTisGsEnqUa-nCp2Kmkt4VZJTxs0uHKtbk/https/i.imgur.com/mBv92H7h.jpg?width=774&height=580');
+          console.log('Thumbnail error.');
         }
         return message.channel.send(emb1);
       }
