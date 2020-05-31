@@ -20,6 +20,10 @@ module.exports = {
     ) {
       queue.musics = [];
       queue.connection.dispatcher.end();
+    
+      let s = db.fetch('CONFIG');
+      s.skipVotes = 0;
+      db.set('CONFIG', s);
 
       return;
     } else {

@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const db = require('quick.db');
 
 module.exports = {
   name: "skip",
@@ -36,6 +37,11 @@ module.exports = {
 
     if (message.member.hasPermission('ADMINISTRATOR') || message.member.roles.find(r => r.name.toLowerCase() === "dj")) {
       queue.connection.dispatcher.end();
+        
+      let c = db.fetch('CONFIG');
+      c.skipVotes = 0;
+      c.skippers = [];
+      db.set('CONFIG', c);
       
       let emb3 = new Discord.RichEmbed()
         .setColor(config.color.green)

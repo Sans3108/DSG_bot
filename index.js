@@ -18,6 +18,10 @@ bot.commands = new Discord.Collection();
 bot.youtube = new YouTube(YouTubeAPIKey);
 bot.queue = new Map();
 
+let s = db.fetch('CONFIG');
+s.skipVotes = 0;
+db.set('CONFIG', s);
+
 const f = require('./f.js');
 bot.f = f;
 
@@ -223,7 +227,11 @@ bot.on("message", async message => {
       bot.queue.delete(guild.id);
       let emb2 = new Discord.RichEmbed()
         .setColor(config.color.green)
-        .setDescription(`🎵 Music playback ended!`);
+        .setDescription(`🎵 Music playback ended!`);  
+      let c = db.fetch('CONFIG');
+      c.skipVotes = 0;
+      c.skippers = [];
+      db.set('CONFIG', c);
       return queue.textChannel.send(emb2);
     }
     let dispatcher = queue.connection
@@ -239,6 +247,10 @@ bot.on("message", async message => {
     let emb3 = new Discord.RichEmbed()
         .setColor(config.color.green)
         .setDescription(`🎵 Now playing: **` + `[${music.title}](${music.url})` + `**`);
+    
+    let skips = db.fetch('CONFIG');
+    skips.skipVotes = 0;
+    db.set('CONFIG', skips);
     queue.textChannel.send(emb3);
   };
 
