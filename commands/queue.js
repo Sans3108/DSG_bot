@@ -8,6 +8,7 @@ module.exports = {
   aliases: ['q'],
   cooldown: 2,
   guildOnly: true,
+  disabled: true,
   execute: async (message, args, bot, config, command, aargs) => {
     let queue = bot.queue.get(message.guild.id);
     
