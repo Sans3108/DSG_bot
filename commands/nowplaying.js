@@ -7,6 +7,7 @@ module.exports = {
   aliases: ['np', 'nowplaying'],
   cooldown: 1,
   guildOnly: true,
+  disabled: true,
   execute: async (message, args, bot, config, command, aargs) => {
     let queue = bot.queue.get(message.guild.id);
     
