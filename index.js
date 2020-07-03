@@ -81,7 +81,7 @@ bot.on("message", async message => {
   if (!command) return;
   if (command.ownerOnly && message.author.id !== config.ownerID) return;
   if (command.guildOnly && message.channel.type !== "text") return;
-  if (command.disabled && message.channel.type === "text") return message.reply('Command disabled.');
+  if (command.disabled) return;
 
   if (command.args && !args.length) {
     let reply = new Discord.RichEmbed()
