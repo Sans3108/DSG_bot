@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "node-start": "node index.js",
-    "start": "pm2 start index.js --merge-logs --time"
+    "old-start": "pm2 start index.js --merge-logs --time",
+    "start": "pm2 start index.js --merge-logs --time --interpreter=/home/ubuntu/.nvm/versions/node/v10.15.3/bin/node"
   },
   "dependencies": {
     "cpu-stat": "2.0.1",
